@@ -74,7 +74,7 @@ export default () => {
     const defaultChannelId = await getCurrentChannelId();
     setChannelId(defaultChannelId);
     scrollToBottom();
-  }, [messages]);
+  }, []);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
