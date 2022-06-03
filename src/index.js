@@ -3,17 +3,24 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
-import '../assets/application.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 import App from './components/App.jsx';
+import store from './slices/index.js';
+import '../assets/application.scss';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />);
-  </BrowserRouter>, document.getElementById('chat'))
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('chat'),
+);

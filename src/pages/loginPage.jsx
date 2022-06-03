@@ -18,10 +18,11 @@ export default () => {
     },
     onSubmit: async (values) => {
       try {
-        const { data: { token } } = await axios.post('/api/v1/login', values);
+        const { data: { token, username } } = await axios.post('/api/v1/login', values);
         const storage = { token };
-        console.log(token);
+        const userName = { username };
         localStorage.setItem('userId', JSON.stringify(storage));
+        localStorage.setItem('userName', JSON.stringify(userName));
         logIn();
         navigate('/');
       } catch (err) {
