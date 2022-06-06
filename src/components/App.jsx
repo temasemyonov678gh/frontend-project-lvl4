@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 
 import Layout from './layout.jsx';
-import { useAuth } from '../hooks/index.jsx';
-import { authContext, socketContext } from '../contexts/index.jsx';
+import { useAuth } from '../hooks/index.js';
+import { authContext, socketContext } from '../contexts/index.js';
 import LoginPage from '../pages/loginPage.jsx';
 import ChatPage from '../pages/chatPage.jsx';
 import NotFoundPage from '../pages/notFoundPage.jsx';
@@ -39,7 +39,8 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-const App = (socket = io()) => {
+const App = () => {
+  const socket = io();
   const dispatch = useDispatch();
   socket.on('newMessage', (msg) => {
     dispatch(messagesActions.addMessage(msg));

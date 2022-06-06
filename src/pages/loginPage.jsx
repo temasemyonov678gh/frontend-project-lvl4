@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.js';
 
 export default () => {
   const inputEl = useRef();
