@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
-import { io } from 'socket.io-client';
 
 import isUniqueChannelName from '../utils/isUniqueChannelName.js';
 import successCheck from '../utils/successCheck.js';
+import { useSocket } from '../hooks/index.js';
 
 const errors = {
   required: 'Обязательное поле',
@@ -18,8 +18,8 @@ const generateOnSubmit = ({ onHide }, socket, name, buttonRef) => {
 };
 
 const Add = (props) => {
+  const socket = useSocket();
   const [error, setError] = useState(null);
-  const socket = io();
   const { onHide } = props;
   const inputRef = useRef();
   const buttonRef = useRef();

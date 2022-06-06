@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
-import { io } from 'socket.io-client';
 
 import successCheck from '../utils/successCheck.js';
+import { useSocket } from '../hooks/index.js';
 
 const generateOnSubmit = ({ modalInfo: { item }, onHide }, socket, buttonRef) => (e) => {
   buttonRef.current.setAttribute('disabled', '');
@@ -13,7 +13,7 @@ const generateOnSubmit = ({ modalInfo: { item }, onHide }, socket, buttonRef) =>
 
 const Remove = (props) => {
   const { onHide } = props;
-  const socket = io();
+  const socket = useSocket();
   const buttonRef = useRef();
   const onSubmit = generateOnSubmit(props, socket, buttonRef);
 

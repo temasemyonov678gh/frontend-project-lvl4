@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 
 import Layout from './layout.jsx';
-import useAuth from '../hooks/index.jsx';
-import AuthContext from '../contexts/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
+import { authContext, socketContext } from '../contexts/index.jsx';
 import LoginPage from '../pages/loginPage.jsx';
 import ChatPage from '../pages/chatPage.jsx';
 import NotFoundPage from '../pages/notFoundPage.jsx';
@@ -25,9 +25,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   );
 };
 
@@ -39,9 +39,8 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-const App = () => {
+const App = (socket = io()) => {
   const dispatch = useDispatch();
-  const socket = io();
   socket.on('newMessage', (msg) => {
     dispatch(messagesActions.addMessage(msg));
   });
@@ -61,23 +60,25 @@ const App = () => {
       changes: {
         name,
       },
-    }
+    };
     dispatch(channelsActions.renameChannel(newObj));
   });
 
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Layout />} >
-          <Route index element={(
-            <PrivateRoute>
-              <ChatPage />
-            </PrivateRoute>
-          )} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
+      <socketContext.Provider value={socket}>
+        <Routes>
+          <Route path="/" element={<Layout />} >
+            <Route index element={(
+              <PrivateRoute>
+                <ChatPage />
+              </PrivateRoute>
+            )} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </socketContext.Provider>
     </AuthProvider>
   );
 };

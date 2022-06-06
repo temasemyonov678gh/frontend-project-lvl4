@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch, batch } from 'react-redux';
 import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
 import cn from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 
@@ -9,6 +8,7 @@ import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 import { selectors as channelsSelectors, actions as channelsActions } from '../slices/channelsSlice.js';
 import fetchData from '../slices/dataSlice.js';
 import getModal from '../modals/index.js';
+import { useSocket } from '../hooks/index.js';
 
 const renderChannelList = (channels, currentChannel, changeChannel, showModal) => {
   const list = channels.map(({ id, name, removable }) => (
@@ -74,7 +74,7 @@ const renderMessages = (list) => list.map((msg) => (
 ));
 
 export default () => {
-  const socket = io();
+  const socket = useSocket();
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
