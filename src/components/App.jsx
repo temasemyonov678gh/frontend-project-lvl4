@@ -10,6 +10,7 @@ import LoginPage from '../pages/loginPage.jsx';
 import ChatPage from '../pages/chatPage.jsx';
 import NotFoundPage from '../pages/notFoundPage.jsx';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
+import { actions as channelsActions } from '../slices/channelsSlice.js';
 
 const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -43,6 +44,25 @@ const App = () => {
   const socket = io();
   socket.on('newMessage', (msg) => {
     dispatch(messagesActions.addMessage(msg));
+  });
+
+  socket.on('newChannel', (msg) => {
+    dispatch(channelsActions.addChannel(msg));
+  });
+
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(channelsActions.removeChannel(id));
+  });
+
+  socket.on('renameChannel', (msg) => {
+    const { id, name } = msg;
+    const newObj = {
+      id,
+      changes: {
+        name,
+      },
+    }
+    dispatch(channelsActions.renameChannel(newObj));
   });
 
   return (

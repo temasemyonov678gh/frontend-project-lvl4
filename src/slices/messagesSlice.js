@@ -3,7 +3,7 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 
-import fetchData from '../utils/fetchData.js';
+import fetchData from './dataSlice.js';
 
 const messagesAdapter = createEntityAdapter();
 const messagesSlice = createSlice({
