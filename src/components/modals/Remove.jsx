@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
 
-import successCheck from '../utils/successCheck.js';
-import { useSocket } from '../hooks/index.js';
+import successCheck from '../../utils/successCheck.js';
+import { useSocket } from '../../hooks/index.js';
 
 const generateOnSubmit = ({ modalInfo: { item }, onHide }, socket, buttonRef) => (e) => {
   buttonRef.current.setAttribute('disabled', '');

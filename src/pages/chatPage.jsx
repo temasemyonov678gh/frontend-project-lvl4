@@ -7,7 +7,7 @@ import { Button, Dropdown } from 'react-bootstrap';
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 import { selectors as channelsSelectors, actions as channelsActions } from '../slices/channelsSlice.js';
 import fetchData from '../slices/dataSlice.js';
-import getModal from '../modals/index.js';
+import getModal from '../components/modals/index.js';
 import { useSocket } from '../hooks/index.js';
 
 const renderChannelList = (channels, currentChannel, changeChannel, showModal) => {

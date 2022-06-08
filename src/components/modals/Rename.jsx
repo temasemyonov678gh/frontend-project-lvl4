@@ -2,25 +2,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 
-import isUniqueChannelName from '../utils/isUniqueChannelName.js';
-import successCheck from '../utils/successCheck.js';
-import { useSocket } from '../hooks/index.js';
+import isUniqueChannelName from '../../utils/isUniqueChannelName.js';
+import successCheck from '../../utils/successCheck.js';
+import { useSocket } from '../../hooks/index.js';
 
 const errors = {
   required: 'Обязательное поле',
   unique: 'Должно быть уникальным',
 };
 
-const generateOnSubmit = ({ onHide }, socket, name, buttonRef) => {
+const generateOnSubmit = (onHide, id, socket, name, buttonRef) => {
   buttonRef.current.setAttribute('disabled', '');
-  socket.emit('newChannel', { name }, successCheck(buttonRef));
+  socket.emit('renameChannel', { id, name }, successCheck(buttonRef));
   onHide();
 };
 
-const Add = (props) => {
+const Rename = (props) => {
   const socket = useSocket();
   const [error, setError] = useState(null);
-  const { onHide } = props;
+  const { onHide, modalInfo: { item: { id, name: prevName } } } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
   const f = useFormik({ onSubmit: ({ body: name }) => {
@@ -33,11 +33,11 @@ const Add = (props) => {
       setError('unique');
       return;
     }
-    generateOnSubmit(props, socket, name, buttonRef);
-  }, initialValues: { body: '' } });
+    generateOnSubmit(onHide, id, socket, name, buttonRef);
+  }, initialValues: { body: prevName } });
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, []);
 
   const feedbackStyle = {
@@ -47,7 +47,7 @@ const Add = (props) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -75,4 +75,4 @@ const Add = (props) => {
   );
 };
 
-export default Add;
+export default Rename;

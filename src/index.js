@@ -1,26 +1,20 @@
 // @ts-check
-
+import ReactDOM from 'react-dom';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-
-import App from './components/App.jsx';
-import store from './slices/index.js';
 import '../assets/application.scss';
+import init from './init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('chat'),
-);
+const renderApp = () => {
+  const vDom = init();
+  console.log(vDom);
+
+  ReactDOM.render(vDom, document.getElementById('chat'));
+};
+
+renderApp();

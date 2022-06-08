@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
 
 import Layout from './layout.jsx';
 import { useAuth } from '../hooks/index.js';
@@ -9,8 +7,7 @@ import { authContext, socketContext } from '../contexts/index.js';
 import LoginPage from '../pages/loginPage.jsx';
 import ChatPage from '../pages/chatPage.jsx';
 import NotFoundPage from '../pages/notFoundPage.jsx';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
+import RegisterPage from '../pages/registerPage.jsx';
 
 const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -39,48 +36,23 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-const App = () => {
-  const socket = io();
-  const dispatch = useDispatch();
-  socket.on('newMessage', (msg) => {
-    dispatch(messagesActions.addMessage(msg));
-  });
+const App = ({ socket }) => (
+  <AuthProvider>
+    <socketContext.Provider value={socket}>
+      <Routes>
+        <Route path="/" element={<Layout />} >
+          <Route index element={(
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          )} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<RegisterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </socketContext.Provider>
+  </AuthProvider>
+);
 
-  socket.on('newChannel', (msg) => {
-    dispatch(channelsActions.addChannel(msg));
-  });
-
-  socket.on('removeChannel', ({ id }) => {
-    dispatch(channelsActions.removeChannel(id));
-  });
-
-  socket.on('renameChannel', (msg) => {
-    const { id, name } = msg;
-    const newObj = {
-      id,
-      changes: {
-        name,
-      },
-    };
-    dispatch(channelsActions.renameChannel(newObj));
-  });
-
-  return (
-    <AuthProvider>
-      <socketContext.Provider value={socket}>
-        <Routes>
-          <Route path="/" element={<Layout />} >
-            <Route index element={(
-              <PrivateRoute>
-                <ChatPage />
-              </PrivateRoute>
-            )} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </socketContext.Provider>
-    </AuthProvider>
-  );
-};
 export default App;
