@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Modal, FormGroup, FormControl, Button, FormLabel } from 'react-bootstrap';
 
 import isUniqueChannelName from '../../utils/isUniqueChannelName.js';
 import successCheck from '../../utils/successCheck.js';
@@ -64,7 +64,7 @@ const Rename = (props) => {
               isInvalid={error}
               aria-label="Имя канала"
             />
-            <FormLabel htmlFor="body" visuallyHidden={true}>Имя канала</FormLabel>
+            {/* <FormLabel htmlFor="body" visuallyHidden={true}>Имя канала</FormLabel> */}
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
