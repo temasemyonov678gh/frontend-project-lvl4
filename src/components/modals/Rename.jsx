@@ -23,7 +23,7 @@ const Rename = (props) => {
   const { onHide, modalInfo: { item: { id, name: prevName } } } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
-  const f = useFormik({ onSubmit: ({ body: name }) => {
+  const f = useFormik({ onSubmit: ({ bodyRename: name }) => {
     if (name === '') {
       setError('required');
       return;
@@ -34,7 +34,7 @@ const Rename = (props) => {
       return;
     }
     generateOnSubmit(onHide, id, socket, name, buttonRef);
-  }, initialValues: { body: prevName } });
+  }, initialValues: { bodyRename: prevName } });
 
   useEffect(() => {
     inputRef.current.select();
@@ -57,9 +57,9 @@ const Rename = (props) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={f.values.body}
+              value={f.values.bodyRename}
               data-testid="input-body"
-              name="body"
+              name="bodyRename"
               className="mb-2"
               isInvalid={error}
               aria-label="Имя канала"
