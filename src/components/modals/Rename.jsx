@@ -63,8 +63,8 @@ const Rename = (props) => {
               className="mb-2"
               isInvalid={error}
             />
+            <label htmlFor="body" className="visually-hidden">Имя канала</label>
           </FormGroup>
-          <label htmlFor="body" className="visually-hidden">Имя канала</label>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
             <Button type="button" className="me-2" onClick={onHide} variant="secondary">Отменить</Button>
