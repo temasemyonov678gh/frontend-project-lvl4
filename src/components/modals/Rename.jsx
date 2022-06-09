@@ -55,7 +55,6 @@ const Rename = (props) => {
           <FormGroup>
             <FormControl
               ref={inputRef}
-              aria-label="Имя канала"
               type="input"
               onChange={f.handleChange}
               onBlur={f.handleBlur}
@@ -65,6 +64,7 @@ const Rename = (props) => {
               className="mb-2"
               isInvalid={error}
             />
+            <FormLabel htmlFor="name" visuallyHidden={true}>Имя канала</FormLabel>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
