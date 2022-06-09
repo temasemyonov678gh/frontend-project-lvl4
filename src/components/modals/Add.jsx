@@ -62,8 +62,8 @@ const Add = (props) => {
               name="body"
               className="mb-2"
               isInvalid={error}
+              aria-label="Имя канала"
             />
-            <label htmlFor="body" className="visually-hidden">Имя канала</label>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
