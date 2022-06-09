@@ -55,6 +55,8 @@ const Rename = (props) => {
           <FormGroup>
             <FormControl
               ref={inputRef}
+              aria-label="Имя канала"
+              type="input"
               onChange={f.handleChange}
               onBlur={f.handleBlur}
               value={f.values.name}
@@ -62,7 +64,6 @@ const Rename = (props) => {
               name="name"
               className="mb-2"
               isInvalid={error}
-              aria-label="Имя канала"
             />
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
