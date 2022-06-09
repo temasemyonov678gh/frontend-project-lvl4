@@ -64,6 +64,7 @@ const Rename = (props) => {
               isInvalid={error}
               aria-label="Имя канала"
             />
+            <FormLabel htmlFor="body" visuallyHidden={true}>Имя канала</FormLabel>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
