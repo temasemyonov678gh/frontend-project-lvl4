@@ -12,7 +12,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const renderApp = () => {
   const vDom = init();
-  console.log(vDom);
 
   ReactDOM.render(vDom, document.getElementById('chat'));
 };

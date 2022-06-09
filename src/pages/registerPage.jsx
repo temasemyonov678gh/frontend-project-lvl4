@@ -4,6 +4,8 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { useAuth } from '../hooks/index.js';
 
@@ -11,17 +13,19 @@ const routes = {
   registerPath: () => '/api/v1/signup',
 };
 
-const schema = yup.object().shape({
-  username: yup.string().trim().required('Обязательное поле').min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов'),
-  password: yup.string().required('').min(6, 'Не менее 6 символов'),
-  confirmPassword: yup.string()
-    .oneOf(
-      [yup.ref('password'), null],
-      'Пароли должны совпадать',
-    ),
-});
-
 export default () => {
+  const { t } = useTranslation();
+
+  const schema = yup.object().shape({
+    username: yup.string().trim().required(t('errors.required')).min(3, t('errors.username')).max(20, t('errors.username')),
+    password: yup.string().required('').min(6, t('errors.password')),
+    confirmPassword: yup.string()
+      .oneOf(
+        [yup.ref('password'), null],
+        t('errors.confirmPassword'),
+      ),
+  });
+
   const inputEl = useRef();
   const navigate = useNavigate();
   const auth = useAuth();
@@ -42,7 +46,10 @@ export default () => {
                 validationSchema={schema}
                 onSubmit={ async (values, actions) => {
                   try {
-                    const { data: { token, username } } = await axios.post(routes.registerPath(), values);
+                    const { data: { token, username } } = await axios.post(routes.registerPath(), values, {
+                      timeout: 10000,
+                      timeoutErrorMessage: 'Network Error',
+                    });
                     const storage = { token };
                     const userName = { username };
                     localStorage.setItem('userId', JSON.stringify(storage));
@@ -51,7 +58,11 @@ export default () => {
                     navigate('/');
                   } catch (err) {
                     if (err.response.status === 409) {
-                      actions.setFieldError('username', 'Такой пользователь уже существует');
+                      actions.setFieldError('username', t('errors.exist'));
+                      return;
+                    }
+                    if (err.isAxiosErr && err.message === 'Network Error') {
+                      toast.error(t('errors.network'));
                       return;
                     }
                     throw err;
@@ -71,12 +82,12 @@ export default () => {
                   errors,
                 }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-mb-0" noValidate onSubmit={handleSubmit}>
-                    <h1 className="text-center mb-4">Регистрация</h1>
+                    <h1 className="text-center mb-4">{t('registrationForm.headling')}</h1>
                     <Form.Floating className="mb-3">
                       <Form.Control
                         id="username"
                         name="username"
-                        placeholder="От 3 до 20 символов"
+                        placeholder={t('errors.username')}
                         required
                         autoComplete="username"
                         onChange={handleChange}
@@ -85,7 +96,7 @@ export default () => {
                         ref={inputEl}
                         isInvalid={!!errors.username}
                       />
-                      <label className="form-label" htmlFor="username">Имя пользователя</label>
+                      <label className="form-label" htmlFor="username">{t('registrationForm.username')}</label>
                       <Form.Control.Feedback type="invalid" tooltip>
                         {errors.username}
                       </Form.Control.Feedback>
@@ -94,7 +105,7 @@ export default () => {
                       <Form.Control
                         id="password"
                         name="password"
-                        placeholder="Не менее 6 символов"
+                        placeholder={t('errors.password')}
                         required
                         type="password"
                         aria-describedby="passwordHelpBlock"
@@ -104,7 +115,7 @@ export default () => {
                         value={values.password}
                         isInvalid={!!errors.password}
                       />
-                      <label className="form-label" htmlFor="password">Пароль</label>
+                      <label className="form-label" htmlFor="password">{t('registrationForm.password')}</label>
                       <Form.Control.Feedback type="invalid" tooltip>
                         {errors.password}
                       </Form.Control.Feedback>
@@ -113,7 +124,7 @@ export default () => {
                       <Form.Control
                         id="confirmPassword"
                         name="confirmPassword"
-                        placeholder="Пароли должны совпадать"
+                        placeholder={t('errors.confirmPassword')}
                         required
                         type="password"
                         autoComplete="new-password"
@@ -122,12 +133,12 @@ export default () => {
                         value={values.confirmPassword}
                         isInvalid={!!errors.confirmPassword}
                       />
-                      <label className="form-label" htmlFor="confirmPassword">Подтвердите пароль</label>
+                      <label className="form-label" htmlFor="confirmPassword">{t('registrationForm.confirmPassword')}</label>
                       <Form.Control.Feedback type="invalid" tooltip>
                         {errors.confirmPassword}
                       </Form.Control.Feedback>
                     </Form.Floating>
-                    <Button className="w-100" variant="outline-primary" type="submit">Зарегистрироваться</Button>
+                    <Button className="w-100" variant="outline-primary" type="submit">{t('buttons.register')}</Button>
                   </Form>
                 )}
               </Formik>

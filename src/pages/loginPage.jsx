@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../hooks/index.js';
 
@@ -11,6 +12,7 @@ const routes = {
 };
 
 export default () => {
+  const { t } = useTranslation();
   const inputEl = useRef();
   const navigate = useNavigate();
   const auth = useAuth();
@@ -32,7 +34,10 @@ export default () => {
               <Formik
                 onSubmit={async (values, actions) => {
                   try {
-                    const { data: { token, username } } = await axios.post(routes.loginPath(), values);
+                    const { data: { token, username } } = await axios.post(routes.loginPath(), values, {
+                      timeout: 10000,
+                      timeoutErrorMessage: 'Network Error',
+                    });
                     const storage = { token };
                     const userName = { username };
                     localStorage.setItem('userId', JSON.stringify(storage));
@@ -41,8 +46,12 @@ export default () => {
                     navigate('/');
                   } catch (err) {
                     if (err.response.status === 401) {
-                      actions.setFieldError('username', 'Неверные имя пользователя или пароль');
-                      actions.setFieldError('password', 'Неверные имя пользователя или пароль');
+                      actions.setFieldError('username', t('errors.auth'));
+                      actions.setFieldError('password', t('errors.auth'));
+                      return;
+                    }
+                    if (err.isAxiosErr && err.message === 'Network Error') {
+                      actions.setFieldError('password', t('errors.network'));
                       return;
                     }
                     throw err;
@@ -60,12 +69,12 @@ export default () => {
                   errors
                 }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={handleSubmit}>
-                    <h1 className="text-center mb-4">Войти</h1>
+                    <h1 className="text-center mb-4">{t('loginForm.headling')}</h1>
                     <Form.Floating className="mb-3">
                       <Form.Control
                         id="username"
                         name="username"
-                        placeholder="Ваш ник"
+                        placeholder={t('loginForm.username')}
                         required
                         autoComplete="username"
                         onChange={handleChange}
@@ -73,13 +82,13 @@ export default () => {
                         ref={inputEl}
                         isInvalid={!!errors.username}
                       />
-                      <label htmlFor="username">Ваш ник</label>
+                      <label htmlFor="username">{t('loginForm.username')}</label>
                     </Form.Floating>
                     <Form.Floating className="mb-3">
                       <Form.Control
                         id="password"
                         name="password"
-                        placeholder="Пароль"
+                        placeholder={t('loginForm.password')}
                         required
                         type="password"
                         autoComplete="current-password"
@@ -87,12 +96,12 @@ export default () => {
                         value={values.password}
                         isInvalid={!!errors.password}
                       />
-                      <label htmlFor="password">Пароль</label>
+                      <label htmlFor="password">{t('loginForm.password')}</label>
                       <Form.Control.Feedback type="invalid" tooltip>
                         {errors.username}
                       </Form.Control.Feedback>
                     </Form.Floating>
-                    <Button className="w-100" variant="outline-primary" type="submit">Войти</Button>
+                    <Button className="w-100" variant="outline-primary" type="submit">{t('buttons.login')}</Button>
                   </Form>
                 )}
               </Formik>
@@ -100,7 +109,7 @@ export default () => {
             <div className="card-footer p-4">
               <div className="text-center">
                 <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
+                <a href="/signup">{t('links.register')}</a>
               </div>
             </div>
           </div>
