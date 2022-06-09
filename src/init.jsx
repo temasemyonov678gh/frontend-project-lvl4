@@ -1,14 +1,13 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
-import React, { useTransition } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import i18next from 'i18next';
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -23,7 +22,6 @@ const initApp = () => {
     .use(initReactI18next)
     .init({
       lng: 'ru',
-      debug: true,
       resources,
     });
 

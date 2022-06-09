@@ -23,7 +23,7 @@ const Add = (props) => {
   const { onHide } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
-  const f = useFormik({ onSubmit: ({ body: name }) => {
+  const f = useFormik({ onSubmit: ({ name }) => {
     if (name === '') {
       setError('required');
       return;
@@ -34,7 +34,7 @@ const Add = (props) => {
       return;
     }
     generateOnSubmit(props, socket, name, buttonRef);
-  }, initialValues: { body: '' } });
+  }, initialValues: { name: '' } });
 
   useEffect(() => {
     inputRef.current.focus();
@@ -57,13 +57,13 @@ const Add = (props) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={f.values.body}
+              value={f.values.name}
               data-testid="input-body"
-              name="body"
+              name="name"
               className="mb-2"
               isInvalid={error}
             />
-            <FormLabel htmlFor="body" visuallyHidden={true}>Имя канала</FormLabel>
+            <FormLabel htmlFor="name" visuallyHidden={true}>Имя канала</FormLabel>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">

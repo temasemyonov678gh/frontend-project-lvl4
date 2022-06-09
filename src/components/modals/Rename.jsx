@@ -23,7 +23,7 @@ const Rename = (props) => {
   const { onHide, modalInfo: { item: { id, name: prevName } } } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
-  const f = useFormik({ onSubmit: ({ bodyRename: name }) => {
+  const f = useFormik({ onSubmit: ({ name }) => {
     if (name === '') {
       setError('required');
       return;
@@ -34,7 +34,7 @@ const Rename = (props) => {
       return;
     }
     generateOnSubmit(onHide, id, socket, name, buttonRef);
-  }, initialValues: { bodyRename: prevName } });
+  }, initialValues: { name: prevName } });
 
   useEffect(() => {
     inputRef.current.select();
@@ -57,13 +57,13 @@ const Rename = (props) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={f.values.bodyRename}
+              value={f.values.name}
               data-testid="input-body"
-              name="bodyRename"
+              name="name"
               className="mb-2"
               isInvalid={error}
+              aria-label="Имя канала"
             />
-            <FormLabel htmlFor="bodyRename" visuallyHidden={true}>Имя канала</FormLabel>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
