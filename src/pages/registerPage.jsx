@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -13,11 +13,12 @@ const routes = {
   registerPath: () => '/api/v1/signup',
 };
 
-export default () => {
+function RegisterPage() {
   const { t } = useTranslation();
 
   const schema = yup.object().shape({
-    username: yup.string().trim().required(t('errors.required')).min(3, t('errors.username')).max(20, t('errors.username')),
+    username: yup.string().trim().required(t('errors.required')).min(3, t('errors.username'))
+      .max(20, t('errors.username')),
     password: yup.string().required('').min(6, t('errors.password')),
     confirmPassword: yup.string()
       .oneOf(
@@ -44,12 +45,16 @@ export default () => {
               </div>
               <Formik
                 validationSchema={schema}
-                onSubmit={ async (values, actions) => {
+                onSubmit={async (values, actions) => {
                   try {
-                    const { data: { token, username } } = await axios.post(routes.registerPath(), values, {
-                      timeout: 10000,
-                      timeoutErrorMessage: 'Network Error',
-                    });
+                    const { data: { token, username } } = await axios.post(
+                      routes.registerPath(),
+                      values,
+                      {
+                        timeout: 10000,
+                        timeoutErrorMessage: 'Network Error',
+                      },
+                    );
                     const storage = { token };
                     const userName = { username };
                     localStorage.setItem('userId', JSON.stringify(storage));
@@ -149,3 +154,5 @@ export default () => {
     </div>
   );
 }
+
+export default RegisterPage;

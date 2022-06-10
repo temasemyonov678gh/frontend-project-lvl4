@@ -71,6 +71,6 @@ const initApp = () => {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default initApp;

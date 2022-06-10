@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const routes = {
   loginPath: () => '/api/v1/login',
 };
 
-export default () => {
+function LoginPage() {
   const { t } = useTranslation();
   const inputEl = useRef();
   const navigate = useNavigate();
@@ -34,10 +34,14 @@ export default () => {
               <Formik
                 onSubmit={async (values, actions) => {
                   try {
-                    const { data: { token, username } } = await axios.post(routes.loginPath(), values, {
-                      timeout: 10000,
-                      timeoutErrorMessage: 'Network Error',
-                    });
+                    const { data: { token, username } } = await axios.post(
+                      routes.loginPath(),
+                      values,
+                      {
+                        timeout: 10000,
+                        timeoutErrorMessage: 'Network Error',
+                      },
+                    );
                     const storage = { token };
                     const userName = { username };
                     localStorage.setItem('userId', JSON.stringify(storage));
@@ -66,7 +70,7 @@ export default () => {
                   handleSubmit,
                   handleChange,
                   values,
-                  errors
+                  errors,
                 }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={handleSubmit}>
                     <h1 className="text-center mb-4">{t('loginForm.headling')}</h1>
@@ -118,3 +122,5 @@ export default () => {
     </div>
   );
 }
+
+export default LoginPage;

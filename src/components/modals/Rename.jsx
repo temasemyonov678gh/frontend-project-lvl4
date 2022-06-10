@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl, Button, FormLabel } from 'react-bootstrap';
+import {
+  Modal, FormGroup, FormControl, Button, FormLabel,
+} from 'react-bootstrap';
 
 import isUniqueChannelName from '../../utils/isUniqueChannelName.js';
 import successCheck from '../../utils/successCheck.js';
@@ -17,24 +19,27 @@ const generateOnSubmit = (onHide, id, socket, name, buttonRef) => {
   onHide();
 };
 
-const Rename = (props) => {
+function Rename(props) {
   const socket = useSocket();
   const [error, setError] = useState(null);
-  const { onHide, modalInfo: { item: { id, name: prevName } } } = props;
+  const { onHide, modalInfo: { item: { id, name: prevName } }, channels } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
-  const f = useFormik({ onSubmit: ({ name }) => {
-    if (name === '') {
-      setError('required');
-      return;
-    }
-    const isExist = isUniqueChannelName(name, props.channels);
-    if (isExist) {
-      setError('unique');
-      return;
-    }
-    generateOnSubmit(onHide, id, socket, name, buttonRef);
-  }, initialValues: { name: prevName } });
+  const f = useFormik({
+    onSubmit: ({ name }) => {
+      if (name === '') {
+        setError('required');
+        return;
+      }
+      const isExist = isUniqueChannelName(name, channels);
+      if (isExist) {
+        setError('unique');
+        return;
+      }
+      generateOnSubmit(onHide, id, socket, name, buttonRef);
+    },
+    initialValues: { name: prevName },
+  });
 
   useEffect(() => {
     inputRef.current.select();
@@ -65,7 +70,7 @@ const Rename = (props) => {
               className="mb-2"
               isInvalid={error}
             />
-            <FormLabel htmlFor="name" visuallyHidden={true}>Имя канала</FormLabel>
+            <FormLabel htmlFor="name" visuallyHidden>Имя канала</FormLabel>
           </FormGroup>
           <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
           <div className="d-flex justify-content-end">
@@ -76,6 +81,6 @@ const Rename = (props) => {
       </Modal.Body>
     </Modal>
   );
-};
+}
 
 export default Rename;

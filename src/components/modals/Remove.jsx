@@ -11,7 +11,7 @@ const generateOnSubmit = ({ modalInfo: { item }, onHide }, socket, buttonRef) =>
   onHide();
 };
 
-const Remove = (props) => {
+function Remove(props) {
   const { onHide } = props;
   const socket = useSocket();
   const buttonRef = useRef();
@@ -36,6 +36,6 @@ const Remove = (props) => {
       </Modal.Body>
     </Modal>
   );
-};
+}
 
 export default Remove;

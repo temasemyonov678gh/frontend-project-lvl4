@@ -12,14 +12,17 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel: (state, { payload }) => {
       channelsAdapter.addOne(state, payload);
-      state.currentChannel = payload.id;
+      const stateCopy = state;
+      stateCopy.currentChannel = payload.id;
     },
     setCurrentChannel: (state, { payload }) => {
-      state.currentChannel = payload;
+      const stateCopy = state;
+      stateCopy.currentChannel = payload;
     },
     removeChannel: (state, { payload }) => {
       channelsAdapter.removeOne(state, payload);
-      state.currentChannel = state.defaultChannel;
+      const stateCopy = state;
+      stateCopy.currentChannel = state.defaultChannel;
     },
     renameChannel: channelsAdapter.updateOne,
   },
@@ -28,8 +31,9 @@ const channelsSlice = createSlice({
       .addCase(fetchData.fulfilled, (state, action) => {
         const { channels, currentChannelId } = action.payload;
         channelsAdapter.addMany(state, channels);
-        state.currentChannel = currentChannelId;
-        state.defaultChannel = currentChannelId;
+        const stateCopy = state;
+        stateCopy.currentChannel = currentChannelId;
+        stateCopy.defaultChannel = currentChannelId;
       });
   },
 });
