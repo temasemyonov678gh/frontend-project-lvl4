@@ -61,6 +61,7 @@ const Rename = (props) => {
               value={f.values.name}
               data-testid="rename-channel"
               name="name"
+              id="name"
               className="mb-2"
               isInvalid={error}
             />
