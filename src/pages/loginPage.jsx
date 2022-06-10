@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { useAuth } from '../hooks/index.js';
 
@@ -54,8 +55,8 @@ function LoginPage() {
                       actions.setFieldError('password', t('errors.auth'));
                       return;
                     }
-                    if (err.isAxiosErr && err.message === 'Network Error') {
-                      actions.setFieldError('password', t('errors.network'));
+                    if (err.message === 'Network Error') {
+                      toast.error(t('errors.network'));
                       return;
                     }
                     throw err;

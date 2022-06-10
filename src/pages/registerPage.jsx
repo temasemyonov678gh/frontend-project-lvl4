@@ -66,7 +66,7 @@ function RegisterPage() {
                       actions.setFieldError('username', t('errors.exist'));
                       return;
                     }
-                    if (err.isAxiosErr && err.message === 'Network Error') {
+                    if (err.message === 'Network Error') {
                       toast.error(t('errors.network'));
                       return;
                     }

@@ -1,17 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useFormik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { Formik } from 'formik';
 import {
   Modal, FormGroup, FormControl, Button, FormLabel,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import isUniqueChannelName from '../../utils/isUniqueChannelName.js';
 import successCheck from '../../utils/successCheck.js';
 import { useSocket } from '../../hooks/index.js';
-
-const errors = {
-  required: 'Обязательное поле',
-  unique: 'Должно быть уникальным',
-};
 
 const generateOnSubmit = (onHide, id, socket, name, buttonRef) => {
   buttonRef.current.setAttribute('disabled', '');
@@ -20,26 +16,11 @@ const generateOnSubmit = (onHide, id, socket, name, buttonRef) => {
 };
 
 function Rename(props) {
+  const { t } = useTranslation();
   const socket = useSocket();
-  const [error, setError] = useState(null);
   const { onHide, modalInfo: { item: { id, name: prevName } }, channels } = props;
   const inputRef = useRef();
   const buttonRef = useRef();
-  const f = useFormik({
-    onSubmit: ({ name }) => {
-      if (name === '') {
-        setError('required');
-        return;
-      }
-      const isExist = isUniqueChannelName(name, channels);
-      if (isExist) {
-        setError('unique');
-        return;
-      }
-      generateOnSubmit(onHide, id, socket, name, buttonRef);
-    },
-    initialValues: { name: prevName },
-  });
 
   useEffect(() => {
     inputRef.current.select();
@@ -56,28 +37,51 @@ function Rename(props) {
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={f.handleSubmit}>
-          <FormGroup>
-            <FormControl
-              ref={inputRef}
-              type="input"
-              onChange={f.handleChange}
-              onBlur={f.handleBlur}
-              value={f.values.name}
-              data-testid="rename-channel"
-              name="name"
-              id="name"
-              className="mb-2"
-              isInvalid={error}
-            />
-            <FormLabel htmlFor="name" visuallyHidden>Имя канала</FormLabel>
-          </FormGroup>
-          <div className="invalid-feedback" style={feedbackStyle}>{error === 'required' || error === 'unique' ? errors[error] : null}</div>
-          <div className="d-flex justify-content-end">
-            <Button type="button" className="me-2" onClick={onHide} variant="secondary">Отменить</Button>
-            <Button type="submit" ref={buttonRef} variant="primary">Отправить</Button>
-          </div>
-        </form>
+        <Formik
+          onSubmit={({ name }, actions) => {
+            if (name === '') {
+              actions.setFieldError('name', t('errors.required'));
+              return;
+            }
+            const isExist = isUniqueChannelName(name, channels);
+            if (isExist) {
+              actions.setFieldError('name', t('errors.unique'));
+              return;
+            }
+            generateOnSubmit(onHide, id, socket, name, buttonRef);
+          }}
+          initialValues={{
+            name: prevName,
+          }}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            values,
+            errors,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <FormGroup>
+                <FormControl
+                  ref={inputRef}
+                  onChange={handleChange}
+                  value={values.name}
+                  data-testid="input-body"
+                  name="name"
+                  id="name"
+                  className="mb-2"
+                  isInvalid={!!errors.name}
+                />
+                <FormLabel htmlFor="name" visuallyHidden>Имя канала</FormLabel>
+              </FormGroup>
+              <div className="invalid-feedback" style={feedbackStyle}>{errors.name}</div>
+              <div className="d-flex justify-content-end">
+                <Button type="button" className="me-2" onClick={onHide} variant="secondary">Отменить</Button>
+                <Button type="submit" ref={buttonRef} variant="primary">Отправить</Button>
+              </div>
+            </form>
+          )}
+        </Formik>
       </Modal.Body>
     </Modal>
   );

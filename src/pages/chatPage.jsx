@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
+import { toast } from 'react-toastify';
 
 import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
 import { selectors as channelsSelectors, actions as channelsActions } from '../slices/channelsSlice.js';
@@ -75,6 +76,7 @@ const renderMessages = (list) => list.map((msg) => (
   <div key={msg.id} className="text-break mb-2">
     <b>{msg.author}</b>
     :
+    {' '}
     {msg.text}
   </div>
 ));
@@ -98,17 +100,17 @@ function ChatPage() {
     },
     onSubmit: ({ body }) => {
       const message = filter.clean(body);
-      try {
-        const newMessage = {
-          text: message,
-          author: userName.username,
-          channelId,
-        };
-        socket.emit('newMessage', newMessage);
-        formik.values.body = '';
-      } catch (err) {
-        console.log(err);
-      }
+      const newMessage = {
+        text: message,
+        author: userName.username,
+        channelId,
+      };
+      socket.emit('newMessage', newMessage, ({ status }) => {
+        if (status !== 'ok') {
+          toast.error(t('errors.network'));
+        }
+      });
+      formik.values.body = '';
     },
   });
   const currentChannel = channels.find(({ id }) => channelId === id);
