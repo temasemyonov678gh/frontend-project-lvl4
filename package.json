@@ -4,8 +4,10 @@
   "description": "[![Actions Status](https://github.com/temasemyonov678gh/frontend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/temasemyonov678gh/frontend-project-lvl4/actions)",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start-server -s ./frontend/build"
+    "postinstall": "cd frontend && npm ci"
   },
   "repository": {
     "type": "git",
