@@ -1,22 +1,35 @@
 import Header from '../components/Header';
 import { Formik, Field, ErrorMessage, useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import axios from 'axios';
+import routes from '../routes';
+import { useAuth } from '../hooks';
 
 const Login = () => {
   let validationSchema = yup.object().shape({
-    name: yup.string().required('Имя отсутствует'),
+    username: yup.string().required('Имя отсутствует'),
     password: yup.string().required('Пароль отсутствует'),
   });
 
-  const handleFormSubmit = (values, { setSubmitting }) => {
-    validationSchema
-      .validate(values)
-      .then((valid) => {
-        console.log(valid);
-        setSubmitting(false);
-      });
+  const { logIn } = useAuth();
+
+  const handleFormSubmit = async (values, actions) => {
+    try {
+      const response = await axios.post(routes.loginPath, values);
+      logIn(response.data);
+    } catch (err) {
+      if (err.response.status === 401) {
+        console.log('error')
+        actions.setErrors({ username: '', password: 'Неверные имя пользователя или пароль' });
+        return;
+      } else if (err.message === 'Network Error') {
+        // toast.error(t('errors.network'));
+        return;
+      }
+      throw err;
+    }
   };
 
   return (
@@ -28,7 +41,7 @@ const Login = () => {
           <div className="card-body">
             <h4>Добро пожаловать !</h4>
             <Formik
-              initialValues={{ name: '', password: '' }}
+              initialValues={{ username: '', password: '' }}
               validationSchema={validationSchema}
               validateOnChange={false}
               validateOnBlur={false}
@@ -44,17 +57,17 @@ const Login = () => {
                   </div>
                   <div className="form-body">
                     <Form.Group>
-                      <Form.Label htmlFor="name">Имя пользователя</Form.Label>
+                      <Form.Label htmlFor="username">Имя пользователя</Form.Label>
                       <Form.Control
-                        id="name"
-                        name="name"
+                        id="username"
+                        name="username"
                         type="name"
                         placeholder="Введите ваше имя"
                         onChange={handleChange}
-                        value={values.name}
+                        value={values.username}
                       />
-                      {errors.name && touched.name ? (
-                        <div className='text-danger'>{errors.name}</div>
+                      {errors.username && touched.username ? (
+                        <div className='text-danger'>{errors.username}</div>
                       ) : null}
                     </Form.Group>
                     <Form.Group>
