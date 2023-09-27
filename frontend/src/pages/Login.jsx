@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes';
 import { useAuth } from '../hooks';
+import { useEffect, useRef } from 'react';
 
 const Login = () => {
   let validationSchema = yup.object().shape({
@@ -13,7 +14,13 @@ const Login = () => {
     password: yup.string().required('Пароль отсутствует'),
   });
 
+  const inputUsername = useRef();
+
   const { logIn } = useAuth();
+
+  useEffect(() => {
+    inputUsername.current.focus();
+  }, []);
 
   const handleFormSubmit = async (values, actions) => {
     try {
@@ -63,6 +70,7 @@ const Login = () => {
                         name="username"
                         type="name"
                         placeholder="Введите ваше имя"
+                        ref={inputUsername}
                         onChange={handleChange}
                         value={values.username}
                       />
