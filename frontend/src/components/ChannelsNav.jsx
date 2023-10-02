@@ -1,8 +1,7 @@
 import { Nav, Navbar } from "react-bootstrap";
 import Channel from "./Channel";
 
-const ChannelsNav = ({ channels, currentChannel, onChangeChannel }) => {
-  console.log(channels)
+const ChannelsNav = ({ channels, currentChannel, onChangeChannel, showRenameModal, showRemoveModal }) => {
   return (
     <Navbar>
       <Nav>
@@ -12,6 +11,8 @@ const ChannelsNav = ({ channels, currentChannel, onChangeChannel }) => {
             channel={channel}
             currentChannel={currentChannel}
             onChangeChannel={onChangeChannel}
+            showRenameModal={showRenameModal}
+            showRemoveModal={showRemoveModal}
           ></Channel>
         ))}
       </Nav>

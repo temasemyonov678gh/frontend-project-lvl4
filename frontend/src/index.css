@@ -255,6 +255,11 @@ form button {
   flex-direction: column !important;
 }
 
+.navbar-nav button {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
 .channel {
   padding: 7px 0 7px 14px;
   width: 202px !important;
@@ -264,8 +269,27 @@ form button {
   border-radius: 16px;
 }
 
-.btn-grey {
+.channel-removable {
+  width: 150px !important;
+}
+
+.dropdown {
+  width: 202px;
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+}
+
+.btn-grey,
+.dropdown-grey {
   background-color: #EDEDED !important;
+}
+
+.btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:nth-child(n+3), .btn-group>:not(.btn-check)+.btn {
+  border: none !important;
+}
+
+.dropdown-menu[data-bs-popper] {
+  left: 150px !important;
 }
 
 .right-section {
@@ -318,4 +342,28 @@ form button {
 .img-send {
   width: 20px;
   height: 20px;
+}
+
+div.fade.in.modal {
+  display:flex !important;
+}
+
+.modal-dialog {
+  margin: auto !important;
+}
+
+.btn-add-channel,
+.btn-rename-channel,
+.btn-remove-channel {
+  width: 150px;
+  align-self: flex-end;
+}
+
+.btn-remove-channel {
+  width: 130px;
+  height: 50px;
+}
+
+.text-confirm {
+  font-size: 20px;
 }

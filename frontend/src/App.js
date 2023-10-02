@@ -15,6 +15,7 @@ import store from "./slices/index.js";
 import { io } from "socket.io-client";
 import SocketPovider from "./providers/socketProvider";
 import { actions as messagesActions } from "./slices/messagesSlice.js";
+import { actions as channelsActions } from "./slices/channelsSlice";
 
 const PrivateRoute = ({ children }) => {
   const { authInfo } = useAuth();
@@ -26,6 +27,21 @@ const App = () => {
   const socket = io();
   socket.on("newMessage", (message) => {
     store.dispatch(messagesActions.addMessage(message));
+  });
+  socket.on("newChannel", (channel) => {
+    store.dispatch(channelsActions.addChannel(channel));
+  });
+  socket.on("renameChannel", ({ id, name }) => {
+    const newObj = {
+      id,
+      changes: {
+        name,
+      },
+    };
+    store.dispatch(channelsActions.renameChannel(newObj));
+  });
+  socket.on("removeChannel", ({ id }) => {
+    store.dispatch(channelsActions.removeChannel(id));
   });
 
   return (
