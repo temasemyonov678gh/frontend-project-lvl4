@@ -82,7 +82,8 @@ header button {
   border-radius: 80px !important;
 }
 
-.login-section {
+.login-section,
+.signup-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,7 +97,8 @@ img {
   height: 317.89px;
 }
 
-.login-section > .container {
+.login-section > .container,
+.signup-section > .container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -176,7 +178,8 @@ form button {
   color: #7D7D7D;
 }
 
-.link-signup {
+.link-signup,
+.link-login {
   font-weight: 600;
   color: #000000;
   text-decoration: none;

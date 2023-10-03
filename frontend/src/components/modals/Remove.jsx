@@ -13,7 +13,6 @@ const Add = (props) => {
   const socket = useSocket();
 
   const handleFormSubmit = () => {
-    console.log(channels);
     socket.emit("removeChannel", { id: item });
     onHide();
   };
