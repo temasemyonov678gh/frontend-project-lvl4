@@ -15,7 +15,10 @@ import ChannelsNav from "../components/ChannelsNav.jsx";
 import { useSocket } from "../hooks/index.js";
 import Message from "../components/Message.jsx";
 import getModal from "../components/modals/index.js";
+import filter from "leo-profanity";
 import { toast } from "react-toastify";
+
+filter.add(filter.getDictionary("ru")); // Добавляем русский в библиотеку-цензор матов
 
 function Chat() {
   const { t } = useTranslation();
@@ -56,14 +59,15 @@ function Chat() {
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
   const handleFormSubmit = ({ message }, { setSubmitting, resetForm }) => {
+    const filteredMessage = filter.clean(message);
     const newMessage = {
-      text: message,
+      text: filteredMessage,
       author: userName.username,
       channelId,
     };
     socket.emit("newMessage", newMessage, ({ status }) => {
       if (status !== "ok") {
-        toast.error(t('errors.network'));
+        toast.error(t("errors.network"));
       }
     });
     setSubmitting(true);
