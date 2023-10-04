@@ -15,6 +15,7 @@ import ChannelsNav from "../components/ChannelsNav.jsx";
 import { useSocket } from "../hooks/index.js";
 import Message from "../components/Message.jsx";
 import getModal from "../components/modals/index.js";
+import { toast } from "react-toastify";
 
 function Chat() {
   const { t } = useTranslation();
@@ -62,7 +63,7 @@ function Chat() {
     };
     socket.emit("newMessage", newMessage, ({ status }) => {
       if (status !== "ok") {
-        alert("Network Error");
+        toast.error(t('errors.network'));
       }
     });
     setSubmitting(true);

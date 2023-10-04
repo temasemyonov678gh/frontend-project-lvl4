@@ -4,6 +4,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { Formik } from "formik";
 import { useSocket } from "../../hooks/index.js";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Remove = (props) => {
   const { t } = useTranslation();
@@ -32,13 +33,13 @@ const Remove = (props) => {
 
   const handleFormSubmit = (values, actions) => {
     const { name } = values;
-    console.log(channels);
     const findSameChannel = channels.find((channel) => channel.name === name);
     const isExist = Boolean(findSameChannel);
     if (isExist) {
       actions.setErrors({ name: t("errors.unique") });
     } else {
       socket.emit("renameChannel", { id, name });
+      toast.success(t("success.rename"));
       onHide();
     }
   };

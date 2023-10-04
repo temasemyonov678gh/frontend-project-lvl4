@@ -4,6 +4,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { Formik } from "formik";
 import { useSocket } from "../../hooks/index.js";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Add = (props) => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const Add = (props) => {
       actions.setErrors({ name: t("errors.unique") });
     } else {
       socket.emit("newChannel", { name });
+      toast.success(t("success.create"));
       onHide();
     }
   };

@@ -370,3 +370,7 @@ div.fade.in.modal {
 .text-confirm {
   font-size: 20px;
 }
+
+.Toastify__toast-icon {
+  margin-right: 10px !important;
+}

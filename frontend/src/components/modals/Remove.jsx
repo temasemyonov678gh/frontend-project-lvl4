@@ -2,6 +2,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { Formik } from "formik";
 import { useSocket } from "../../hooks/index.js";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Add = (props) => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const Add = (props) => {
 
   const handleFormSubmit = () => {
     socket.emit("removeChannel", { id: item });
+    toast.success( t("success.remove"));
     onHide();
   };
 

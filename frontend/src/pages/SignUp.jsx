@@ -8,6 +8,7 @@ import routes from "../routes";
 import { useAuth } from "../hooks";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ const SignUp = () => {
         });
         return;
       } else if (err.message === "Network Error") {
-        // toast.error(t('errors.network'));
+        toast.error(t('errors.network'));
         return;
       }
       throw err;
