@@ -1,7 +1,16 @@
 import { Dropdown, ButtonGroup } from "react-bootstrap";
 import cn from "classnames";
+import { useTranslation } from "react-i18next";
 
-const Channel = ({ channel, currentChannel, onChangeChannel, showRenameModal, showRemoveModal }) => {
+const Channel = ({
+  channel,
+  currentChannel,
+  onChangeChannel,
+  showRenameModal,
+  showRemoveModal,
+}) => {
+  const { t } = useTranslation();
+
   const isCurrent = channel.id === currentChannel.id;
 
   const channelClasses = cn("channel", {
@@ -25,11 +34,19 @@ const Channel = ({ channel, currentChannel, onChangeChannel, showRenameModal, sh
         <span className="me-1">#</span>
         {channel.name}
       </button>
-      <Dropdown.Toggle split variant="none" id="dropdown-split-basic" />
-
-      <Dropdown.Menu drop="up">
-        <Dropdown.Item onClick={showRenameModal(channel)}>Переименовать</Dropdown.Item>
-        <Dropdown.Item onClick={showRemoveModal(channel.id)} className="text-danger">Удалить</Dropdown.Item>
+      <Dropdown.Toggle split variant="none" id="dropdown-split-basic">
+        <span className="visually-hidden">{t("chatPage.dropdown.hidden")}</span>
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={showRenameModal(channel)}>
+          {t("chatPage.dropdown.rename")}
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={showRemoveModal(channel.id)}
+          className="text-danger"
+        >
+          {t("chatPage.dropdown.remove")}
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

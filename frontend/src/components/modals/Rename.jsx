@@ -1,18 +1,28 @@
 import { useRef, useEffect } from "react";
 import * as yup from "yup";
 import { Modal, Form, Button } from "react-bootstrap";
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { Formik } from "formik";
 import { useSocket } from "../../hooks/index.js";
+import { useTranslation } from "react-i18next";
 
 const Remove = (props) => {
-  const { onHide, modalInfo: { item: { id, name: prevName } }, channels } = props;
+  const { t } = useTranslation();
+
+  const {
+    onHide,
+    modalInfo: {
+      item: { id, name: prevName },
+    },
+    channels,
+  } = props;
   const socket = useSocket();
 
   let validationSchema = yup.object().shape({
-    name: yup.string()
-      .min(3, "От 3 до 20 символов")
-      .max(20, "От 3 до 20 символов")
-      .required("Название отсутствует"),
+    name: yup
+      .string()
+      .min(3, t("errors.name"))
+      .max(20, t("errors.name"))
+      .required(t("errors.required")),
   });
 
   const inputRef = useRef();
@@ -26,7 +36,7 @@ const Remove = (props) => {
     const findSameChannel = channels.find((channel) => channel.name === name);
     const isExist = Boolean(findSameChannel);
     if (isExist) {
-      actions.setErrors({ name: "Такой канал уже существует" });
+      actions.setErrors({ name: t("errors.unique") });
     } else {
       socket.emit("renameChannel", { id, name });
       onHide();
@@ -36,7 +46,7 @@ const Remove = (props) => {
   return (
     <Modal show centered onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t("modals.rename.title")}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -51,7 +61,7 @@ const Remove = (props) => {
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="name" className="visually-hidden">
-                  Название канала
+                  {t("formsElements.name.label")}
                 </Form.Label>
                 <Form.Control
                   id="name"
@@ -66,8 +76,12 @@ const Remove = (props) => {
                   <div className="text-danger">{errors.name}</div>
                 ) : null}
               </Form.Group>
-              <Button className="btn-rename-channel" variant="dark" type="submit">
-                Переименовать
+              <Button
+                className="btn-rename-channel"
+                variant="dark"
+                type="submit"
+              >
+                {t("formsElements.buttons.rename")}
               </Button>
             </Form>
           )}

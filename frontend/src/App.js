@@ -13,6 +13,9 @@ import { useAuth } from "./hooks/index.js";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import store from "./slices/index.js";
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
+import resources from "./locales/index.js";
 import { io } from "socket.io-client";
 import SocketPovider from "./providers/socketProvider";
 import { actions as messagesActions } from "./slices/messagesSlice.js";
@@ -25,6 +28,13 @@ const PrivateRoute = ({ children }) => {
 };
 
 const App = () => {
+  i18next
+    .use(initReactI18next) // передаем экземпляр i18n в react-i18next, который сделает его доступным для всех компонентов через context API.
+    .init({
+      lng: "ru",
+      resources, // передаем переводы текстов интерфейса в формате JSON
+    });
+
   const socket = io();
   socket.on("newMessage", (message) => {
     store.dispatch(messagesActions.addMessage(message));

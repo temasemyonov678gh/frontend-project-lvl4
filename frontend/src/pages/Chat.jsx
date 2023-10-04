@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import Header from "../components/Header.jsx";
 import { selectors as messagesSelectors } from "../slices/messagesSlice.js";
 import {
@@ -13,16 +14,19 @@ import { Form } from "react-bootstrap";
 import ChannelsNav from "../components/ChannelsNav.jsx";
 import { useSocket } from "../hooks/index.js";
 import Message from "../components/Message.jsx";
-import getModal from '../components/modals/index.js';
+import getModal from "../components/modals/index.js";
 
 function Chat() {
+  const { t } = useTranslation();
   const socket = useSocket();
   const userName = JSON.parse(localStorage.getItem("userName"));
   const channels = useSelector(channelsSelectors.selectAll);
   const messages = useSelector(messagesSelectors.selectAll);
   const channelId = useSelector((state) => state.channels.currentChannel);
   const currentChannel = channels.find(({ id }) => channelId === id);
-  const filteredMessages= messages.filter((message) => message.channelId === channelId);
+  const filteredMessages = messages.filter(
+    (message) => message.channelId === channelId
+  );
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const dispatch = useDispatch();
 
@@ -35,43 +39,22 @@ function Chat() {
   useEffect(() => {
     inputEl.current.focus();
   }, [currentChannel]);
-  
+
   const renderModal = ({ modalInfo, hideModal, channels }) => {
     if (!modalInfo.type) {
       return null;
     }
-  
+
     const Component = getModal(modalInfo.type);
-    return <Component channels={channels} modalInfo={modalInfo} onHide={hideModal} />;
+    return (
+      <Component channels={channels} modalInfo={modalInfo} onHide={hideModal} />
+    );
   };
 
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
-  const getFormattedMessageCount = () => {
-    const count = filteredMessages.length;
-    // Определяем остаток от деления количества сообщений на 10
-    const remainder = count % 10;
-
-    // Определяем остаток от деления количества сообщений на 100
-    const remainder100 = count % 100;
-
-    // Проверяем условия для разных окончаний
-    if (remainder100 >= 11 && remainder100 <= 19) {
-      return `${count} сообщений`;
-    } else if (remainder === 1) {
-      return `${count} сообщение`;
-    } else if (remainder >= 2 && remainder <= 4) {
-      return `${count} сообщения`;
-    } else {
-      return `${count} сообщений`;
-    }
-  };
-
-  const handleFormSubmit = (
-    { message },
-    { setSubmitting, resetForm }
-  ) => {
+  const handleFormSubmit = ({ message }, { setSubmitting, resetForm }) => {
     const newMessage = {
       text: message,
       author: userName.username,
@@ -86,15 +69,17 @@ function Chat() {
     resetForm();
   };
 
-  const showRenameModal = (item) => () => showModal('renaming', item);
-  const showRemoveModal = (id) => () => showModal('removing', id);
+  const showRenameModal = (item) => () => showModal("renaming", item);
+  const showRemoveModal = (id) => () => showModal("removing", id);
 
   const onChangeChannel = (id) => () => {
     dispatch(channelsActions.setCurrentChannel(id));
   };
 
   const renderMessages = () =>
-  filteredMessages.map((message, index) => <Message key={index} message={message} />);
+    filteredMessages.map((message, index) => (
+      <Message key={index} message={message} />
+    ));
 
   return (
     <section className="chat-section">
@@ -103,8 +88,13 @@ function Chat() {
         <div className="chat-window">
           <div className="left-section">
             <div className="header">
-              <h5>Каналы</h5>
-              <Button onClick={() => showModal('adding')} variant="outline-dark">+</Button>
+              <h5>{t("chatPage.channels")}</h5>
+              <Button
+                onClick={() => showModal("adding")}
+                variant="outline-dark"
+              >
+                +
+              </Button>
             </div>
             <ChannelsNav
               channels={channels}
@@ -120,7 +110,7 @@ function Chat() {
                 # {currentChannel && currentChannel.name}
               </h5>
               <p className="counter-of-messages">
-                {getFormattedMessageCount()}
+                {t("chatPage.message", { count: filteredMessages.length })}
               </p>
             </div>
             <div className="chat-messages overflow-auto px-5 ">
@@ -131,14 +121,7 @@ function Chat() {
                 initialValues={{ message: "" }}
                 onSubmit={handleFormSubmit}
               >
-                {({
-                  handleSubmit,
-                  handleChange,
-                  values,
-                  errors,
-                  isSubmitting,
-                  touched,
-                }) => {
+                {({ handleSubmit, handleChange, values, isSubmitting }) => {
                   const isSubmitDisabled =
                     isSubmitting || values.message === "";
 
@@ -149,14 +132,14 @@ function Chat() {
                           htmlFor="message"
                           className="visually-hidden"
                         >
-                          Введите сообщение
+                          {t("formsElements.message.label")}
                         </Form.Label>
                         <Form.Control
                           className="imput-new-message"
                           id="message"
                           name="message"
                           type="text"
-                          placeholder="Введите сообщение..."
+                          placeholder={t("formsElements.message.label") + "..."}
                           ref={inputEl}
                           onChange={handleChange}
                           value={values.message}
@@ -165,7 +148,6 @@ function Chat() {
                           <img
                             className="img-send"
                             src={require("../assets/send.png")}
-                            alt="image-boy"
                           />
                         </button>
                       </Form.Group>

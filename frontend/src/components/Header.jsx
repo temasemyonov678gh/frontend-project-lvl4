@@ -1,21 +1,29 @@
-import { Navbar, Container, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { Navbar, Container, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  const userId = JSON.parse(localStorage.getItem("userId"));
 
   return (
     <header>
       <Navbar expand="lg" className="bg-white">
         <Container>
-          <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-          {(auth.loggedIn || userId) && userId.token ? <Button onClick={auth.logOut} variant="outline-dark">Выйти</Button> : null}
+          <Navbar.Brand as={Link} to="/">
+            {t("header.brand")}
+          </Navbar.Brand>
+          {(auth.loggedIn || userId) && userId.token ? (
+            <Button onClick={auth.logOut} variant="outline-dark">
+              {t("header.button")}
+            </Button>
+          ) : null}
         </Container>
       </Navbar>
     </header>
   );
-}
+};
 
 export default Header;

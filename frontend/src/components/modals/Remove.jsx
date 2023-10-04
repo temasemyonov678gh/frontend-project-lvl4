@@ -1,14 +1,14 @@
-import { useRef, useEffect } from "react";
-import * as yup from "yup";
 import { Modal, Form, Button } from "react-bootstrap";
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { Formik } from "formik";
 import { useSocket } from "../../hooks/index.js";
+import { useTranslation } from "react-i18next";
 
 const Add = (props) => {
+  const { t } = useTranslation();
+
   const {
     onHide,
     modalInfo: { item },
-    channels,
   } = props;
   const socket = useSocket();
 
@@ -20,7 +20,7 @@ const Add = (props) => {
   return (
     <Modal show centered onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t("modals.remove.title")}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -30,13 +30,13 @@ const Add = (props) => {
         >
           {({ handleSubmit }) => (
             <Form noValidate onSubmit={handleSubmit}>
-              <p className="text-confirm">Уверены?</p>
+              <p className="text-confirm">{t("formsElements.confirm")}</p>
               <Button
                 className="btn-remove-channel"
                 variant="danger"
                 type="submit"
               >
-                Удалить
+                {t("formsElements.buttons.remove")}
               </Button>
             </Form>
           )}

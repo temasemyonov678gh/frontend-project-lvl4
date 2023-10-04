@@ -1,28 +1,31 @@
 import Header from "../components/Header";
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { Formik } from "formik";
 import { Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import routes from "../routes";
 import { useAuth } from "../hooks";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
+  const { t } = useTranslation();
+
   let validationSchema = yup.object().shape({
     username: yup
       .string()
-      .min(3, "От 3 до 20 символов")
-      .max(20, "От 3 до 20 символов")
-      .required("Имя отсутствует"),
+      .min(3, t("errors.username"))
+      .max(20, t("errors.username"))
+      .required(t("errors.required")),
     password: yup
       .string()
-      .min(6, "Не менее 6 символов")
-      .required("Пароль отсутствует"),
+      .min(6, t("errors.password"))
+      .required(t("errors.required")),
     confirmPassword: yup
       .string()
-      .required("Подтвердите пароль")
-      .oneOf([yup.ref("password"), null], "Пароли должны совпадать"),
+      .required(t("errors.required"))
+      .oneOf([yup.ref("password"), null], t("errors.confirmPassword")),
   });
 
   const inputUsername = useRef();
@@ -40,10 +43,14 @@ const SignUp = () => {
     } catch (err) {
       console.log(err);
       if (err.response.status === 409) {
-        console.log('error')
-        actions.setErrors({ username: 'Такой пользователь уже существует', password: '', confirmPassword: '' });
+        console.log("error");
+        actions.setErrors({
+          username: t("errors.exist"),
+          password: "",
+          confirmPassword: "",
+        });
         return;
-      } else if (err.message === 'Network Error') {
+      } else if (err.message === "Network Error") {
         // toast.error(t('errors.network'));
         return;
       }
@@ -57,11 +64,10 @@ const SignUp = () => {
       <div className="container">
         <img
           src={require("../assets/people-are-talking.png")}
-          alt="image-boy"
         />
         <div className="card">
           <div className="card-body">
-            <h4>Добро пожаловать !</h4>
+            <h4>{t("signUpPage.welcomeMessage")}</h4>
             <Formik
               initialValues={{
                 username: "",
@@ -73,29 +79,22 @@ const SignUp = () => {
               validateOnBlur={false}
               onSubmit={handleFormSubmit}
             >
-              {({
-                handleSubmit,
-                handleChange,
-                values,
-                errors,
-                isSubmitting,
-                touched,
-              }) => (
+              {({ handleSubmit, handleChange, values, errors, touched }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <div className="form-header">
-                    <h2>Зарегистрируйтесь</h2>
-                    <p>Чтобы пользоваться чатом</p>
+                    <h2>{t("signUpPage.heading.signup")}</h2>
+                    <p>{t("signUpPage.heading.useChat")}</p>
                   </div>
                   <div className="form-body">
                     <Form.Group>
                       <Form.Label htmlFor="username">
-                        Имя пользователя
+                        {t("formsElements.username.label")}
                       </Form.Label>
                       <Form.Control
                         id="username"
                         name="username"
                         type="name"
-                        placeholder="Введите ваше имя"
+                        placeholder={t("formsElements.username.placeholder")}
                         ref={inputUsername}
                         onChange={handleChange}
                         value={values.username}
@@ -105,12 +104,14 @@ const SignUp = () => {
                       ) : null}
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label htmlFor="password">Пароль</Form.Label>
+                      <Form.Label htmlFor="password">
+                        {t("formsElements.password.label")}
+                      </Form.Label>
                       <Form.Control
                         id="password"
                         name="password"
                         type="password"
-                        placeholder="Введите ваш пароль"
+                        placeholder={t("formsElements.password.placeholder")}
                         onChange={handleChange}
                         value={values.password}
                       />
@@ -120,13 +121,15 @@ const SignUp = () => {
                     </Form.Group>
                     <Form.Group>
                       <Form.Label htmlFor="confirmPassword">
-                        Подтвердите пароль
+                        {t("formsElements.confirmPassword.label")}
                       </Form.Label>
                       <Form.Control
                         id="confirmPassword"
                         name="confirmPassword"
                         type="password"
-                        placeholder="Введите ваш пароль"
+                        placeholder={t(
+                          "formsElements.confirmPassword.placeholder"
+                        )}
                         onChange={handleChange}
                         value={values.confirmPassword}
                       />
@@ -137,14 +140,14 @@ const SignUp = () => {
                       ) : null}
                     </Form.Group>
                     <Button variant="dark" type="submit">
-                      Зарегистрироваться
+                      {t("formsElements.buttons.signup")}
                     </Button>
                   </div>
                   <div className="form-description">
                     <p>
-                      Уже есть аккаунт ?{" "}
+                      {t("signUpPage.haveAccount")}{" "}
                       <Link className="link-login" to="/login">
-                        Войти
+                        {t("signUpPage.login")}
                       </Link>
                     </p>
                   </div>
