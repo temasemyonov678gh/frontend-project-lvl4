@@ -1,11 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import routes from "../routes";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import routes from '../routes';
 
-const userId = JSON.parse(localStorage.getItem("userId"));
+const userId = JSON.parse(localStorage.getItem('userId'));
 
 export const fetchData = createAsyncThunk(
-  "channels/fetchData",
+  'channels/fetchData',
   async () => {
     const response = await axios.get(routes.dataPath(), {
       headers: {
@@ -13,5 +13,5 @@ export const fetchData = createAsyncThunk(
       },
     });
     return response.data;
-  }
+  },
 );

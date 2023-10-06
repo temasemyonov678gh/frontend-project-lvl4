@@ -7,7 +7,7 @@ import {
   selectors as channelsSelectors,
   actions as channelsActions,
 } from "../slices/channelsSlice.js";
-import { fetchData } from "../slices/dataSlice.js";
+import { fetchData } from '../slices/dataSlice.js';
 import { Button } from "react-bootstrap";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
@@ -21,8 +21,8 @@ import { toast } from "react-toastify";
 filter.add(filter.getDictionary("ru")); // Добавляем русский в библиотеку-цензор матов
 
 function Chat() {
-  const { t } = useTranslation();
-  const socket = useSocket();
+    const { t } = useTranslation();
+    const socket = useSocket();
   const userName = JSON.parse(localStorage.getItem("userName"));
   const channels = useSelector(channelsSelectors.selectAll);
   const messages = useSelector(messagesSelectors.selectAll);
@@ -122,21 +122,14 @@ function Chat() {
               {renderMessages()}
             </div>
             <div className="chat-messages-footer mt-auto">
-              <Formik
-                initialValues={{ body: "" }}
-                onSubmit={handleFormSubmit}
-              >
+              <Formik initialValues={{ body: "" }} onSubmit={handleFormSubmit}>
                 {({ handleSubmit, handleChange, values, isSubmitting }) => {
-                  const isSubmitDisabled =
-                    isSubmitting || values.body === "";
+                  const isSubmitDisabled = isSubmitting || values.body === "";
 
                   return (
                     <Form noValidate onSubmit={handleSubmit} autoComplete="off">
                       <Form.Group className="input-group">
-                        <Form.Label
-                          htmlFor="body"
-                          className="visually-hidden"
-                        >
+                        <Form.Label htmlFor="body" className="visually-hidden">
                           {t("formsElements.message.label")}
                         </Form.Label>
                         <Form.Control
