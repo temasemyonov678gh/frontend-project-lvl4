@@ -154,6 +154,7 @@ function Chat() {
                             className="img-send"
                             src={require("../assets/send.png")}
                           />
+                          <span className="visually-hidden">Отправить</span>
                         </button>
                       </Form.Group>
                     </Form>
