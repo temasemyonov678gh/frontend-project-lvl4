@@ -23,7 +23,7 @@ export default {
         useChat: "Чтобы пользоваться чатом",
       },
       noAccount: "Нет аккаунта ?",
-      signup: "Зарегистрироваться",
+      signup: "Регистрация",
     },
     signUpPage: {
       welcomeMessage: "Регистрация",
