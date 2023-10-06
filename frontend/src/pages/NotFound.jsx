@@ -17,7 +17,7 @@ const NotFound = () => (
         <Link to="/" className="link-home">
           <img
             src={require('../assets/arrow.png')}
-            alt=''
+            alt=""
           />
           На главную
         </Link>
