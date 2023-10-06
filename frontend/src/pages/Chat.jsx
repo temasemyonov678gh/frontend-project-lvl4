@@ -58,8 +58,8 @@ function Chat() {
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
-  const handleFormSubmit = ({ message }, { setSubmitting, resetForm }) => {
-    const filteredMessage = filter.clean(message);
+  const handleFormSubmit = ({ body }, { setSubmitting, resetForm }) => {
+    const filteredMessage = filter.clean(body);
     const newMessage = {
       text: filteredMessage,
       author: userName.username,
@@ -123,31 +123,31 @@ function Chat() {
             </div>
             <div className="chat-messages-footer mt-auto">
               <Formik
-                initialValues={{ message: "" }}
+                initialValues={{ body: "" }}
                 onSubmit={handleFormSubmit}
               >
                 {({ handleSubmit, handleChange, values, isSubmitting }) => {
                   const isSubmitDisabled =
-                    isSubmitting || values.message === "";
+                    isSubmitting || values.body === "";
 
                   return (
                     <Form noValidate onSubmit={handleSubmit} autoComplete="off">
                       <Form.Group className="input-group">
                         <Form.Label
-                          htmlFor="message"
+                          htmlFor="body"
                           className="visually-hidden"
                         >
                           {t("formsElements.message.label")}
                         </Form.Label>
                         <Form.Control
                           className="imput-new-message"
-                          id="message"
-                          name="message"
+                          id="body"
+                          name="body"
                           type="text"
                           placeholder={t("formsElements.message.label") + "..."}
                           ref={inputEl}
                           onChange={handleChange}
-                          value={values.message}
+                          value={values.body}
                         />
                         <button type="submit" disabled={isSubmitDisabled}>
                           <img
