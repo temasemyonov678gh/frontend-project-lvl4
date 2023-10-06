@@ -1,21 +1,21 @@
-import Header from "../components/Header";
-import { Formik } from "formik";
-import { Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import * as yup from "yup";
-import axios from "axios";
-import routes from "../routes";
-import { useAuth } from "../hooks";
-import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import * as yup from 'yup';
+import axios from 'axios';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useAuth } from '../hooks';
+import routes from '../routes';
+import Header from '../components/Header';
 
-const Login = () => {
+function Login() {
   const { t } = useTranslation();
 
-  let validationSchema = yup.object().shape({
-    username: yup.string().required(t("errors.required")),
-    password: yup.string().required(t("errors.required")),
+  const validationSchema = yup.object().shape({
+    username: yup.string().required(t('errors.required')),
+    password: yup.string().required(t('errors.required')),
   });
 
   const inputUsername = useRef();
@@ -32,13 +32,13 @@ const Login = () => {
       logIn(response.data);
     } catch (err) {
       if (err.response.status === 401) {
-        console.log("error");
+        console.log('error');
         actions.setErrors({
-          username: "",
-          password: t("errors.auth"),
+          username: '',
+          password: t('errors.auth'),
         });
         return;
-      } else if (err.message === "Network Error") {
+      } if (err.message === 'Network Error') {
         toast.error(t('errors.network'));
         return;
       }
@@ -51,34 +51,36 @@ const Login = () => {
       <Header />
       <div className="container">
         <img
-          src={require("../assets/people-are-talking.png")}
+          src={require('../assets/people-are-talking.png')}
         />
         <div className="card">
           <div className="card-body">
-            <h4>{t("loginPage.welcomeMessage")}</h4>
+            <h4>{t('loginPage.welcomeMessage')}</h4>
             <Formik
-              initialValues={{ username: "", password: "" }}
+              initialValues={{ username: '', password: '' }}
               validationSchema={validationSchema}
               validateOnChange={false}
               validateOnBlur={false}
               onSubmit={handleFormSubmit}
             >
-              {({ handleSubmit, handleChange, values, errors, touched }) => (
+              {({
+                handleSubmit, handleChange, values, errors, touched,
+              }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <div className="form-header">
-                    <h2>{t("loginPage.heading.loginToAccount")}</h2>
-                    <p>{t("loginPage.heading.useChat")}</p>
+                    <h2>{t('loginPage.heading.loginToAccount')}</h2>
+                    <p>{t('loginPage.heading.useChat')}</p>
                   </div>
                   <div className="form-body">
                     <Form.Group>
                       <Form.Label htmlFor="username">
-                        {t("formsElements.nickname.label")}
+                        {t('formsElements.nickname.label')}
                       </Form.Label>
                       <Form.Control
                         id="username"
                         name="username"
                         type="name"
-                        placeholder={t("formsElements.nickname.placeholder")}
+                        placeholder={t('formsElements.nickname.placeholder')}
                         ref={inputUsername}
                         onChange={handleChange}
                         value={values.username}
@@ -89,13 +91,13 @@ const Login = () => {
                     </Form.Group>
                     <Form.Group>
                       <Form.Label htmlFor="password">
-                        {t("formsElements.password.label")}
+                        {t('formsElements.password.label')}
                       </Form.Label>
                       <Form.Control
                         id="password"
                         name="password"
                         type="password"
-                        placeholder={t("formsElements.password.placeholder")}
+                        placeholder={t('formsElements.password.placeholder')}
                         onChange={handleChange}
                         value={values.password}
                       />
@@ -104,14 +106,15 @@ const Login = () => {
                       ) : null}
                     </Form.Group>
                     <Button variant="dark" type="submit">
-                      {t("formsElements.buttons.login")}
+                      {t('formsElements.buttons.login')}
                     </Button>
                   </div>
                   <div className="form-description">
                     <p>
-                      {t("loginPage.noAccount")}{" "}
+                      {t('loginPage.noAccount')}
+                      {' '}
                       <Link className="link-signup" to="/signup">
-                        {t("loginPage.signup")}
+                        {t('loginPage.signup')}
                       </Link>
                     </p>
                   </div>
@@ -123,6 +126,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

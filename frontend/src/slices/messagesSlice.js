@@ -1,6 +1,6 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
-import { fetchData } from './dataSlice';
+import fetchData from './dataSlice';
 
 const messagesAdapter = createEntityAdapter();
 

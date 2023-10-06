@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { authContext } from "../contexts";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { authContext } from '../contexts';
 
-const AuthProvider = ({ children }) => {
-  const userId = JSON.parse(localStorage.getItem("userId"));
+function AuthProvider({ children }) {
+  const userId = JSON.parse(localStorage.getItem('userId'));
   const [authInfo, setAuthInfo] = useState(userId);
   const loggedIn = Boolean(userId);
   const navigate = useNavigate();
@@ -12,18 +12,18 @@ const AuthProvider = ({ children }) => {
     const { token, username } = data;
     const storage = { token };
     const userName = { username };
-    localStorage.setItem("userId", JSON.stringify(storage));
-    localStorage.setItem("userName", JSON.stringify(userName));
+    localStorage.setItem('userId', JSON.stringify(storage));
+    localStorage.setItem('userName', JSON.stringify(userName));
     setAuthInfo(data);
-    navigate("/");
-    location.reload()
+    navigate('/');
+    location.reload();
   };
 
   const logOut = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     setAuthInfo(null);
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -38,6 +38,6 @@ const AuthProvider = ({ children }) => {
       {children}
     </authContext.Provider>
   );
-};
+}
 
 export default AuthProvider;

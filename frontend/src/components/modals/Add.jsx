@@ -1,23 +1,23 @@
-import { useRef, useEffect } from "react";
-import * as yup from "yup";
-import { Modal, Form, Button } from "react-bootstrap";
-import { Formik } from "formik";
-import { useSocket } from "../../hooks/index.js";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { useRef, useEffect } from 'react';
+import * as yup from 'yup';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useSocket } from '../../hooks/index.js';
 
-const Add = (props) => {
+function Add(props) {
   const { t } = useTranslation();
 
   const { onHide, channels } = props;
   const socket = useSocket();
 
-  let validationSchema = yup.object().shape({
+  const validationSchema = yup.object().shape({
     name: yup
       .string()
-      .min(3, t("errors.name"))
-      .max(20, t("errors.name"))
-      .required(t("errors.required")),
+      .min(3, t('errors.name'))
+      .max(20, t('errors.name'))
+      .required(t('errors.required')),
   });
 
   const inputRef = useRef();
@@ -30,10 +30,10 @@ const Add = (props) => {
     const findSameChannel = channels.find((channel) => channel.name === name);
     const isExist = Boolean(findSameChannel);
     if (isExist) {
-      actions.setErrors({ name: t("errors.unique") });
+      actions.setErrors({ name: t('errors.unique') });
     } else {
-      socket.emit("newChannel", { name });
-      toast.success(t("success.create"));
+      socket.emit('newChannel', { name });
+      toast.success(t('success.create'));
       onHide();
     }
   };
@@ -41,22 +41,24 @@ const Add = (props) => {
   return (
     <Modal show centered onHide={onHide}>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>{t("modals.add.title")}</Modal.Title>
+        <Modal.Title>{t('modals.add.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Formik
-          initialValues={{ name: "" }}
+          initialValues={{ name: '' }}
           validationSchema={validationSchema}
           validateOnChange={false}
           validateOnBlur={false}
           onSubmit={handleFormSubmit}
         >
-          {({ handleSubmit, handleChange, values, errors, touched }) => (
+          {({
+            handleSubmit, handleChange, values, errors, touched,
+          }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="name" className="visually-hidden">
-                  {t("formsElements.name.label")}
+                  {t('formsElements.name.label')}
                 </Form.Label>
                 <Form.Control
                   id="name"
@@ -72,7 +74,7 @@ const Add = (props) => {
                 ) : null}
               </Form.Group>
               <Button className="btn-add-channel" variant="dark" type="submit">
-                {t("formsElements.buttons.add")}
+                {t('formsElements.buttons.add')}
               </Button>
             </Form>
           )}
@@ -80,6 +82,6 @@ const Add = (props) => {
       </Modal.Body>
     </Modal>
   );
-};
+}
 
 export default Add;

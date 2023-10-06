@@ -4,7 +4,7 @@ import routes from '../routes';
 
 const userId = JSON.parse(localStorage.getItem('userId'));
 
-export const fetchData = createAsyncThunk(
+export default createAsyncThunk(
   'channels/fetchData',
   async () => {
     const response = await axios.get(routes.dataPath(), {

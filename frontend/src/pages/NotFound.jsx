@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import Header from "../components/Header";
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
-const NotFound = () => {
+function NotFound() {
   return (
     <div className="not-found-section">
       <Header />
@@ -14,13 +14,13 @@ const NotFound = () => {
         </div>
         <div className="link-container">
           <Link to="/" className="link-home">
-            <img src={require("../assets/arrow.png")} />
+            <img src={require('../assets/arrow.png')} />
             На главную
           </Link>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default NotFound;
