@@ -25,7 +25,6 @@ function Chat() {
   const socket = useSocket();
   const userName = JSON.parse(localStorage.getItem("userName"));
   const channels = useSelector(channelsSelectors.selectAll);
-  console.log(channels)
   const messages = useSelector(messagesSelectors.selectAll);
   const channelId = useSelector((state) => state.channels.currentChannel);
   const currentChannel = channels.find(({ id }) => channelId === id);

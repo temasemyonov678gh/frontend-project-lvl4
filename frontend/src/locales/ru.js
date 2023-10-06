@@ -47,7 +47,7 @@ export default {
     },
     formsElements: {
       name: {
-        label: "Название канала",
+        label: "Имя канала",
       },
       nickname: {
         label: "Ваш ник",
