@@ -3,23 +3,21 @@ import Channel from './Channel';
 
 const ChannelsNav = ({
   channels, currentChannel, onChangeChannel, showRenameModal, showRemoveModal,
-}) => {
-  return (
-    <Navbar>
-      <Nav>
-        {channels.map((channel) => (
-          <Channel
-            key={channel.id}
-            channel={channel}
-            currentChannel={currentChannel}
-            onChangeChannel={onChangeChannel}
-            showRenameModal={showRenameModal}
-            showRemoveModal={showRemoveModal}
-          />
-        ))}
-      </Nav>
-    </Navbar>
-  );
-}
+}) => (
+  <Navbar>
+    <Nav>
+      {channels.map((channel) => (
+        <Channel
+          key={channel.id}
+          channel={channel}
+          currentChannel={currentChannel}
+          onChangeChannel={onChangeChannel}
+          showRenameModal={showRenameModal}
+          showRemoveModal={showRemoveModal}
+        />
+      ))}
+    </Nav>
+  </Navbar>
+);
 
 export default ChannelsNav;

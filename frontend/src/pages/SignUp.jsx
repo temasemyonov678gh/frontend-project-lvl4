@@ -65,7 +65,7 @@ const SignUp = () => {
       <div className="container">
         <img
           src={require('../assets/people-are-talking.png')}
-          alt=''
+          alt=""
         />
         <div className="card">
           <div className="card-body">
@@ -164,6 +164,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;

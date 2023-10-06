@@ -46,6 +46,6 @@ const Remove = (props) => {
       </Modal.Body>
     </Modal>
   );
-}
+};
 
 export default Remove;

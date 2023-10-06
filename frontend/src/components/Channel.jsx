@@ -50,6 +50,6 @@ const Channel = ({
       </Dropdown.Menu>
     </Dropdown>
   );
-}
+};
 
 export default Channel;

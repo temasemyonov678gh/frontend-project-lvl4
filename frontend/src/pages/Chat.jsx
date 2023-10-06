@@ -152,7 +152,7 @@ const Chat = () => {
                           <img
                             className="img-send"
                             src={require('../assets/send.png')}
-                            alt=''
+                            alt=""
                           />
                           <span className="visually-hidden">Отправить</span>
                         </button>
@@ -168,6 +168,6 @@ const Chat = () => {
       {renderModal({ hideModal })}
     </section>
   );
-}
+};
 
 export default Chat;

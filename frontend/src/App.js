@@ -26,7 +26,7 @@ const PrivateRoute = ({ children }) => {
   const { authInfo } = useAuth();
 
   return authInfo ? children : <Navigate to="/login" />;
-}
+};
 
 const App = () => {
   i18next
@@ -79,6 +79,6 @@ const App = () => {
       </AuthProvider>
     </Router>
   );
-}
+};
 
 export default App;

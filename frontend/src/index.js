@@ -32,24 +32,22 @@ const rollbarConfig = {
   },
 };
 
-const CustomError = () => {
-  return (
-    <div className="error-section">
-      <Alert className="alert" key="danger" variant="danger">
-        <Alert.Heading className="alert-header">
-          Упс!.. Что-то пошло не так.
-        </Alert.Heading>
-        <p className="alert-body">
-          Извините, возникла ошибка на нашем сайте. Мы работаем над устранением
-          проблемы и приносим свои извинения за неудобства. Пожалуйста, повторите
-          попытку позже. Если ошибка продолжает возникать, пожалуйста, сообщите
-          нам о ней, чтобы мы могли быстро исправить ситуацию. Спасибо за ваше
-          терпение и понимание!
-        </p>
-      </Alert>
-    </div>
-  );
-}
+const CustomError = () => (
+  <div className="error-section">
+    <Alert className="alert" key="danger" variant="danger">
+      <Alert.Heading className="alert-header">
+        Упс!.. Что-то пошло не так.
+      </Alert.Heading>
+      <p className="alert-body">
+        Извините, возникла ошибка на нашем сайте. Мы работаем над устранением
+        проблемы и приносим свои извинения за неудобства. Пожалуйста, повторите
+        попытку позже. Если ошибка продолжает возникать, пожалуйста, сообщите
+        нам о ней, чтобы мы могли быстро исправить ситуацию. Спасибо за ваше
+        терпение и понимание!
+      </p>
+    </Alert>
+  </div>
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
