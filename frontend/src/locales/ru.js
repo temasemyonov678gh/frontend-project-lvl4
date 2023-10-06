@@ -26,7 +26,7 @@ export default {
       signup: "Зарегистрироваться",
     },
     signUpPage: {
-      welcomeMessage: "Добро пожаловать !",
+      welcomeMessage: "Регистрация",
       heading: {
         signup: "Зарегистрируйтесь",
         useChat: "Чтобы пользоваться чатом",
@@ -49,17 +49,21 @@ export default {
       name: {
         label: "Название канала",
       },
+      nickname: {
+        label: "Ваш ник",
+        placeholder: "Ваш ник",
+      },
       username: {
         label: "Имя пользователя",
-        placeholder: "Введите ваше имя",
+        placeholder: "Имя пользователя",
       },
       password: {
         label: "Пароль",
-        placeholder: "Введите ваш пароль",
+        placeholder: "Пароль",
       },
       confirmPassword: {
         label: "Подтвердите пароль",
-        placeholder: "Введите ваш пароль",
+        placeholder: "Введите пароль",
       },
       message: {
         label: "Введите сообщение",
@@ -69,9 +73,9 @@ export default {
       buttons: {
         login: "Войти",
         signup: "Зарегистрироваться",
-        add: "Добавить",
-        rename: "Переименовать",
-        remove: "Удалить",
+        add: "Отправить",
+        rename: "Отправить",
+        remove: "Отправить",
       },
     },
     errors: {

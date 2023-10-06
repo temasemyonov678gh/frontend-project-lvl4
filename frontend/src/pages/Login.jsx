@@ -72,13 +72,13 @@ const Login = () => {
                   <div className="form-body">
                     <Form.Group>
                       <Form.Label htmlFor="username">
-                        {t("formsElements.username.label")}
+                        {t("formsElements.nickname.label")}
                       </Form.Label>
                       <Form.Control
                         id="username"
                         name="username"
                         type="name"
-                        placeholder={t("formsElements.username.placeholder")}
+                        placeholder={t("formsElements.nickname.placeholder")}
                         ref={inputUsername}
                         onChange={handleChange}
                         value={values.username}
