@@ -2,13 +2,13 @@ import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-function Channel({
+const Channel = ({
   channel,
   currentChannel,
   onChangeChannel,
   showRenameModal,
   showRemoveModal,
-}) {
+}) => {
   const { t } = useTranslation();
 
   const isCurrent = channel.id === currentChannel.id;

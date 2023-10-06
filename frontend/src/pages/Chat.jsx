@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +22,7 @@ import getModal from '../components/modals/index.js';
 
 filter.add(filter.getDictionary('ru')); // Добавляем русский в библиотеку-цензор матов
 
-function Chat() {
+const Chat = () => {
   const { t } = useTranslation();
   const socket = useSocket();
   const userName = JSON.parse(localStorage.getItem('userName'));
@@ -44,7 +46,7 @@ function Chat() {
     inputEl.current.focus();
   }, [currentChannel]);
 
-  const renderModal = ({ modalInfo, hideModal, channels }) => {
+  const renderModal = ({ hideModal }) => {
     if (!modalInfo.type) {
       return null;
     }
@@ -81,8 +83,8 @@ function Chat() {
     dispatch(channelsActions.setCurrentChannel(id));
   };
 
-  const renderMessages = () => filteredMessages.map((message, index) => (
-    <Message key={index} message={message} />
+  const renderMessages = () => filteredMessages.map((message) => (
+    <Message key={message.id} message={message} />
   ));
 
   return (
@@ -150,6 +152,7 @@ function Chat() {
                           <img
                             className="img-send"
                             src={require('../assets/send.png')}
+                            alt=''
                           />
                           <span className="visually-hidden">Отправить</span>
                         </button>
@@ -162,7 +165,7 @@ function Chat() {
           </div>
         </div>
       </div>
-      {renderModal({ modalInfo, hideModal, channels })}
+      {renderModal({ hideModal })}
     </section>
   );
 }

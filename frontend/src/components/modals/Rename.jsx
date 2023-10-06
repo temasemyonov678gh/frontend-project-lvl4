@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import * as yup from 'yup';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.js';
 
-function Remove(props) {
+const Remove = (props) => {
   const { t } = useTranslation();
 
   const {

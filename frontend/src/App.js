@@ -22,13 +22,13 @@ import SocketPovider from './providers/socketProvider';
 import { actions as messagesActions } from './slices/messagesSlice';
 import { actions as channelsActions } from './slices/channelsSlice';
 
-function PrivateRoute({ children }) {
+const PrivateRoute = ({ children }) => {
   const { authInfo } = useAuth();
 
   return authInfo ? children : <Navigate to="/login" />;
 }
 
-function App() {
+const App = () => {
   i18next
     // передаем экземпляр i18n в react-i18next,
     // который сделает его доступным для всех компонентов через context API.

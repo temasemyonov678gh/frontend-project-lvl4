@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.js';
 
-function Add(props) {
+const Add = (props) => {
   const { t } = useTranslation();
 
   const { onHide, channels } = props;

@@ -32,7 +32,7 @@ const rollbarConfig = {
   },
 };
 
-function CustomError() {
+const CustomError = () => {
   return (
     <div className="error-section">
       <Alert className="alert" key="danger" variant="danger">

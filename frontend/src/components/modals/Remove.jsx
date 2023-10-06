@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.js';
 
-function Add(props) {
+const Remove = (props) => {
   const { t } = useTranslation();
 
   const {
@@ -48,4 +48,4 @@ function Add(props) {
   );
 }
 
-export default Add;
+export default Remove;

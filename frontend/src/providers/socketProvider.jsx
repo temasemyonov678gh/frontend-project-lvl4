@@ -1,6 +1,6 @@
 import { socketContext } from '../contexts';
 
-function SocketPovider({ socket, children }) {
+const SocketPovider = ({ socket, children }) => {
   return (
     <socketContext.Provider value={socket}>{children}</socketContext.Provider>
   );

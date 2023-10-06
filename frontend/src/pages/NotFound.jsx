@@ -1,7 +1,9 @@
+/* eslint-disable global-require */
+
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
-function NotFound() {
+const NotFound = () => {
   return (
     <div className="not-found-section">
       <Header />
@@ -14,7 +16,10 @@ function NotFound() {
         </div>
         <div className="link-container">
           <Link to="/" className="link-home">
-            <img src={require('../assets/arrow.png')} />
+            <img
+              src={require('../assets/arrow.png')}
+              alt=''
+            />
             На главную
           </Link>
         </div>

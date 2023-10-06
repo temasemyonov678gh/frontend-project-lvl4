@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 import { Formik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -10,7 +12,7 @@ import { useAuth } from '../hooks';
 import routes from '../routes';
 import Header from '../components/Header';
 
-function SignUp() {
+const SignUp = () => {
   const { t } = useTranslation();
 
   const validationSchema = yup.object().shape({
@@ -63,6 +65,7 @@ function SignUp() {
       <div className="container">
         <img
           src={require('../assets/people-are-talking.png')}
+          alt=''
         />
         <div className="card">
           <div className="card-body">

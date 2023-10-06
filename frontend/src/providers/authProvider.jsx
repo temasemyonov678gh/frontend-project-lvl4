@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authContext } from '../contexts';
 
-function AuthProvider({ children }) {
+const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
   const [authInfo, setAuthInfo] = useState(userId);
   const loggedIn = Boolean(userId);
@@ -16,7 +18,7 @@ function AuthProvider({ children }) {
     localStorage.setItem('userName', JSON.stringify(userName));
     setAuthInfo(data);
     navigate('/');
-    location.reload();
+    window.location.reload();
   };
 
   const logOut = () => {

@@ -1,4 +1,4 @@
-function Message({ message }) {
+const Message = ({ message }) => {
   return (
     <div className="mb-3">
       <b>
