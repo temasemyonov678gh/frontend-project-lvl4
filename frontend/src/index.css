@@ -83,7 +83,8 @@ header button {
 }
 
 .login-section,
-.signup-section {
+.signup-section,
+.not-found-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,7 +99,8 @@ img {
 }
 
 .login-section > .container,
-.signup-section > .container {
+.signup-section > .container,
+.not-found-section > .container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -373,4 +375,64 @@ div.fade.in.modal {
 
 .Toastify__toast-icon {
   margin-right: 10px !important;
+}
+
+.error-section {
+  display: flex;
+  justify-content: center;
+}
+
+.alert {
+  margin-top: 40px !important;
+  width: 800px;
+}
+
+.alert-body {
+  margin-top: 10px !important;
+}
+
+.not-found-section > .container {
+  flex-direction: column;
+}
+
+.error-container {
+  margin-top: -100px !important;
+  text-align: center;
+  width: 650px;
+}
+
+.error-container > h1 {
+  font-size: 260px;
+  font-weight: 600;
+  line-height: 1em !important;
+  color: #ffffff;
+  text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
+             2px 2px #000, -2px -1px #000, 2px -1px #000, -1px 2px #000;
+}
+
+.error-container-desctiption {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.link-home {
+  margin-right: 5px !important;
+  font-size: 24px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.link-container {
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  margin-top: 28px !important;
+  border-bottom: 1px solid #000000;
+}
+
+.link-container img {
+  margin-top: -4px !important;
+  margin-right: 5px !important;
+  width: 35px;
+  height: 35px;
 }
