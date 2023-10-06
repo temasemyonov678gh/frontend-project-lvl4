@@ -66,7 +66,7 @@ export default {
         placeholder: "Введите пароль",
       },
       message: {
-        label: "Введите сообщение",
+        label: "Ввод сообщения",
         placeholder: "Введите сообщение",
       },
       confirm: "Уверены?",

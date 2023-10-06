@@ -141,6 +141,7 @@ function Chat() {
                         </Form.Label>
                         <Form.Control
                           className="imput-new-message"
+                          aria-label="Новое сообщение"
                           id="body"
                           name="body"
                           type="text"
