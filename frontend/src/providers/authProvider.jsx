@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("userName", JSON.stringify(userName));
     setAuthInfo(data);
     navigate("/");
+    location.reload()
   };
 
   const logOut = () => {
