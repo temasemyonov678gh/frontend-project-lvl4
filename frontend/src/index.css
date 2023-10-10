@@ -297,6 +297,29 @@ form button {
   left: 150px !important;
 }
 
+.nav.nav-tabs > li.dropdown.active.open > a, 
+.nav.nav-tabs > li.dropdown.active.open > ul.dropdown-menu a:hover,
+.nav.nav-tabs > li.dropdown.open > a, 
+.nav.nav-tabs > li.dropdown.open > ul.dropdown-menu a:hover
+{
+  color: #fff !important;
+  background-color: #b91773 !important;
+  border-color: #fff !important;
+}
+
+.dropdown-item:active {
+  color: #000000 !important;
+  background-color: #EDEDED !important;
+}
+
+ul.dropdown-menu>li.active>a:hover{
+  background: #419641 !important;
+}
+
+ul.dropdown-menu>li.active>a{
+  background: #51AB51 !important;
+}
+
 .right-section {
   display: flex;
   flex-direction: column;
